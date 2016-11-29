@@ -1,7 +1,7 @@
 {
-  "name": "react-seed",
+  "name": "braggersui",
   "version": "1.0.0",
-  "description": "Seed project for React.js apps",
+  "description": "Braggers UI front page project",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "babel-node --presets es2015,stage-0 --eval \"require('./tools/clean').default().catch(err => console.log(err.stack))\"",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creeperyang/react-seed.git"
+    "url": "git+https://github.com/AxwayBraggers/braggersUI.git"
   },
   "keywords": [
     "react",
@@ -23,12 +23,12 @@
     "boilerplate",
     "babel"
   ],
-  "author": "creeperyang",
+  "author": "Marin Vasilev <mvasilev@axway.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/creeperyang/react-seed/issues"
+    "url": "https://github.com/AxwayBraggers/braggersUI/issues"
   },
-  "homepage": "https://github.com/creeperyang/react-seed#readme",
+  "homepage": "https://github.com/AxwayBraggers/braggersUI#readme",
   "devDependencies": {
     "autoprefixer": "^6.2.3",
     "babel-cli": "^6.4.0",
