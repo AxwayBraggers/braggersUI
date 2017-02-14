@@ -1,0 +1,272 @@
+$spacing-lg: 25px;
+$spacing-md: 15px;
+$spacing-sm: 5px;
+
+@import "./bootstrap4/variables";
+
+//General styles
+
+.bg-dark{ background: #eeeeee; }
+.bg-light{ background: #f9f9f9; }
+.bg-white{ background: white; }
+
+.colorDark{ color: $gray-dark; }
+
+header#appHeader{
+    nav.navbar{
+        border-radius: 0;
+
+        form.form-inline{
+            position: relative;
+            margin-top: 2px;
+
+            input.form-control{
+                width: 100%;
+                background: rgba(255,255,255, .35);
+                transition: all .25s;
+
+                &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+                    color:    white;
+                }
+                &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+                color:    white;
+                opacity:  1;
+                }
+                &::-moz-placeholder { /* Mozilla Firefox 19+ */
+                color:    white;
+                opacity:  1;
+                }
+                &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+                color:    white;
+                }
+
+                &:focus{
+                    background: white;
+                }
+            }
+
+            button{
+                position: absolute;
+                top: 0;
+                right: 0;
+                padding: 0.2em; 
+                width: 50px;
+                border: none;
+
+                i{
+                    color: white;
+                }
+
+                &:hover, &:active{
+                    background: none;
+                }
+            }
+        }
+
+        a.dropdown-toggle{
+            img{
+                width: 25px;
+                border-radius: 50%;
+                margin-right: 5px;
+            }
+        }
+
+    }//navbar
+}//appHeader
+
+section#homeContent{
+    padding: $spacing-lg 0 $spacing-lg 0;
+
+
+    aside#sidebar, aside#sidebarRight{
+        ul.nav{
+
+            &.activeUsers{
+                margin-top: $spacing-md;
+                padding-top: $spacing-md;
+                border-top: 1px solid $gray-lighter;
+
+                li{
+                    height: 50px;
+                    line-height: 50px;
+                    a{
+                        img{
+                            border-radius: 50%;
+                            width: 35px;
+                            margin-right: 10px;
+                        }
+                        strong{
+                            margin-left: 10px;
+                        }
+
+                    }
+                }
+            }
+
+            &.latestQuestions{
+                position: relative;
+                top: -10px;
+                padding-top: $spacing-md;
+                
+                li{
+                    line-height: 18px;
+
+                    a{
+                        color: $brand-primary !important;
+                        line-height: 18px;
+                        color: #818a91;
+                        margin-top: 10px;
+                        margin-bottom: 8px;
+                        font-size: 14px;
+                        height: auto !important;
+                        position: relative;
+                    }
+
+                    span.tag{
+                        margin-right: 3px;
+                        font-size: 10px;
+                        line-height: 15px;
+                    }
+                }
+            }
+
+            li{
+                &.heading{
+                    color: $gray-light;
+                }
+                a{ 
+                    height: 40px;
+                    line-height: 40px;
+                    color: $gray;
+                    transition: all .35s;
+
+                    &.active{
+                        color: $brand-primary;
+                        i{ color: $brand-primary; }
+                    }
+                    i{
+                        margin-right: 10px;
+                        color: $gray;
+                        transition: all .55s;
+                    }
+                    
+                    &:hover{
+                        color: $brand-primary;
+                    }    
+                }
+            }
+        }
+    }//aside sidebar
+
+}//home content
+
+
+article#newPost{
+
+        .card{
+            overflow: hidden;
+        }
+
+        .buttonBar{
+            position: relative;
+            bottom: -100px;
+            transition: all .25s;
+        }
+
+        form{
+            overflow: hidden;
+            height: 90px;
+            margin-bottom: $spacing-lg;
+            transition: all .75s;
+
+            label{
+                color: $gray-light;
+            }
+
+        }
+        &.active{
+            form{
+                height: auto;
+            }
+
+            .buttonBar{
+                bottom: 0;
+            }
+        }
+
+        div.userAvatar{
+            img{
+                border-radius: 50%;
+            }
+        }
+
+        .def-btn{
+            margin-right: 5px;
+            color: $gray-dark;
+            font-weight: bold;
+        }
+        .btn{
+            display: inline;
+            padding: 0.6em 1em 0.6em .6em;
+            margin-left: 5px;
+        }
+    
+}
+
+
+footer#appFooter{
+    margin-top: 0;
+    padding-top: $spacing-lg;
+    padding-bottom: $spacing-lg;
+    border-top: 1px solid $hr-border-color;
+
+
+    ul{
+        li{
+            a{
+                color: $gray-lightest;
+            }
+        }
+    }
+}
+
+
+i{
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    &:after, &:before{
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+}
+.material-icons{
+    top: 5px;
+}
+
+
+//Widgets
+div.preloader{
+    background: none;
+    padding-bottom: 1.1em;
+    
+    i{
+        margin-right: 10px;
+    }
+}
+
+.card{
+    position: relative;
+
+    img{
+        width: 100%;
+    }
+}
