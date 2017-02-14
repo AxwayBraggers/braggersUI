@@ -1,12 +1,11 @@
 import React from 'react';
-
-import styles from './style.scss';
+import notfound_image from './404.jpg';
 
 class NoMatch extends React.Component {
     render() {
         return (
-            <div className={styles.paper}>
-                <p>You are lost.</p>
+            <div id="notFoundPage" className="col-sm-12 col-md-6">
+                <img src={notfound_image} />
             </div>
         );
     }

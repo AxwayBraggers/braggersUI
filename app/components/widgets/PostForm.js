@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 
 import axwayLogo from '../../images/logo.png';
 import Configuration from '../Configuration';
+import Request from '../../utils/Request';
+import Settings from '../../utils/Settings';
 
 class PostForm extends Component {
 
@@ -13,6 +15,7 @@ class PostForm extends Component {
         selectedItem: PropTypes.number,
         userName: PropTypes.string,
         userPicture: PropTypes.object,
+        userData: PropTypes.object,
         theme: PropTypes.object,
     };
 
@@ -23,14 +26,42 @@ class PostForm extends Component {
         theme: Configuration.themeSettings,
     };
 
+    userData = () => {
+        return {
+            displayName: 'unknown',
+            data: {
+                avatar_url: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+            }
+        };
+    };
+
     componentWillMount() {
         this.state = {
             selectedItem: this.props.selectedItem,
             userName: this.props.userName,
             userPicture: this.props.userPicture,
+            userData: this.userData(),
             theme: this.props.theme,
         };
     };
+
+
+    componentDidMount() {
+        //Fetch user data
+        let req = new Request();
+        let settings = new Settings();
+        let self = this;
+        req.get(settings.baseUrl + "/api/github/logged", (response) => {
+            var body = response;
+            if (typeof body === 'string') {
+                body = JSON.parse(body);
+            }
+            var _data = body.authuser;
+            self.setState({
+                userData: _data
+            });
+        });
+    }
 
     showPostForm = (e) => {
         let el = document.getElementById('newPost');
@@ -50,7 +81,7 @@ class PostForm extends Component {
                 <div className="card card-block">
                     <div className="card-text">
                         <div className="userAvatar col-xs-4 col-sm-2">
-                            {this.state.userPicture}
+                            <img src={this.state.userData.data.avatar_url} />
                         </div>
                         <form className="col-xs-8 col-sm-10">
                             <h5>Write a new Article</h5>
@@ -58,7 +89,7 @@ class PostForm extends Component {
                                 <input type="email" className="form-control" placeholder="Write new Post" onFocus={this.showPostForm} />
                             </div>
                             <div className="form-group">
-                                <label for="exampleInputEmail1">Post Content</label>
+                                <label htmlFor="exampleInputEmail1">Post Content</label>
                                 <textarea className="form-control"></textarea>
                             </div>
                         </form>

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Header from '../../components/layouts/Header';
 import Footer from '../../components/layouts/Footer';
-import IndexPage from '../index/IndexPage';
+import IndexPage from '../index/index';
 import Configuration from '../../components/Configuration';
 //Layout components
 import Sidebar from '../../components/layouts/Sidebar';

@@ -9,10 +9,17 @@ class Header extends Component {
         super();
     };
 
+
+    componentWillMount() {
+        this.state = {
+            userData: new Object(),
+        };
+    };
+
     render() {
         return (
             <header id="appHeader">
-                <Navbar selectedItem={0} userName='Marin Vasilev'/>
+                <Navbar selectedItem={0} />
             </header>
         );
     };

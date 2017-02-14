@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 
 import axwayLogo from '../../images/logo.png';
 import Configuration from '../Configuration';
@@ -8,8 +9,6 @@ class UserMenu extends Component {
     constructor() {
         super();
     };
-
-    axway_logo_url = 'https://cdn.axway.com/globalnav/axway-logo-top.svg';
 
     static propTypes = {
         selectedItem: PropTypes.number,
@@ -39,13 +38,14 @@ class UserMenu extends Component {
             userName: this.props.userName,
             userPicture: this.props.userPicture,
             theme: this.props.theme,
+            userItems: this.userItems(),
         };
     };
 
     handleClick = (e) => {
         e.preventDefault();
         var target = e.target;
-        if(e.target.nodeName === 'SPAN'){
+        if (e.target.nodeName === 'SPAN') {
             target = e.target.parentElement;
         }
         this.setState({
@@ -56,16 +56,16 @@ class UserMenu extends Component {
     render() {
 
         return (
-                <ul className="nav">
-                    {this.userItems().map((item, index) => {
-                        return <li key={index} className={(index == this.state.selectedItem) ? 'nav-item active' : 'nav-item'}>
-                            <a className="nav-link" href="{item.link}" data-key={index} onClick={this.handleClick}>
-                                <i className="material-icons">{item.icon}</i>
-                                {item.name}
-                            </a>
-                        </li>
-                    })}
-                </ul>
+            <ul className="nav">
+                {this.state.userItems.map((item, index) => {
+                    return <li key={index}>
+                        <Link className="nav-link" to={item.link} activeClassName="active">
+                            <i className="material-icons">{item.icon}</i>
+                            {item.name}
+                        </Link>
+                    </li>
+                })}
+            </ul>
         );
     };
 }

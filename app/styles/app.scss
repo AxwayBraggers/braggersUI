@@ -131,9 +131,6 @@ section#homeContent{
             }
 
             li{
-                &.active{
-                    a, i{color: $brand-primary;};
-                }
                 &.heading{
                     color: $gray-light;
                 }
@@ -142,7 +139,11 @@ section#homeContent{
                     line-height: 40px;
                     color: $gray;
                     transition: all .35s;
-                    
+
+                    &.active{
+                        color: $brand-primary;
+                        i{ color: $brand-primary; }
+                    }
                     i{
                         margin-right: 10px;
                         color: $gray;
@@ -249,4 +250,23 @@ i{
 }
 .material-icons{
     top: 5px;
+}
+
+
+//Widgets
+div.preloader{
+    background: none;
+    padding-bottom: 1.1em;
+    
+    i{
+        margin-right: 10px;
+    }
+}
+
+.card{
+    position: relative;
+
+    img{
+        width: 100%;
+    }
 }

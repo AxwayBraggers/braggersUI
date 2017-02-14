@@ -6,7 +6,7 @@ import Configuration from '../Configuration';
 import Request from '../../utils/Request';
 import Settings from '../../utils/Settings';
 
-class ActiveUsers extends Component {
+class MainForum extends Component {
 
     constructor() {
         super();
@@ -20,13 +20,13 @@ class ActiveUsers extends Component {
     };
 
     static defaultProps = {
-        selectedItem: -1,
+        selectedItem: 0,
         userName: 'unknown',
         userPicture: <i className="material-icons">account_circle</i>,
         theme: Configuration.themeSettings,
     };
 
-    userItems = () => {
+    postItems = () => {
         return [];
     };
 
@@ -36,7 +36,7 @@ class ActiveUsers extends Component {
             userName: this.props.userName,
             userPicture: this.props.userPicture,
             theme: this.props.theme,
-            userItems: this.userItems(),
+            postItems: this.postItems(),
         };
     };
 
@@ -44,23 +44,18 @@ class ActiveUsers extends Component {
         //Fetch user data
         let req = new Request();
         let settings = new Settings();
-        req.get(settings.baseUrl + "/api/github/users/", (response) => {
+        req.get(settings.baseUrl + "/api/question/", (response) => {
             var body = response;
             if (typeof body === 'string') {
                 body = JSON.parse(body);
             }
-            if (body.authusers.length > 0) {
+            if (body.questions.length > 0) {
                 var userData = new Array();
-                body.authusers.map((user, index) => {
-                    userData[index] = {
-                        name: user.displayName,
-                        username: user.username,
-                        link: user.profileUrl,
-                        avatar: user.data.avatar_url,
-                    }
+                body.questions.map((user, index) => {
+                    userData[index] = user
                 });
                 this.setState({
-                    userItems: userData,
+                    postItems: userData,
                 });
             }
         });
@@ -69,28 +64,37 @@ class ActiveUsers extends Component {
     handleClick = (e) => {
         e.preventDefault();
         var target = e.target;
+        if (e.target.nodeName === 'SPAN') {
+            target = e.target.parentElement;
+        }
         this.setState({
             selectedItem: target.dataset.key
         });
     }
 
+    _renderTags = () => {
+        return this.questionTags().map((item, index) => {
+            return <span key={index} className="tag tag-pill tag-default">{item.title}</span>
+        })
+    }
+
     render() {
 
         return (
-            <ul className="nav activeUsers">
-                <li className="heading">Active Users</li>
-                {this.state.userItems.map((item, index) => {
-                    return <li key={index} className={(index == this.state.selectedItem) ? 'nav-item active' : 'nav-item'}>
-                        <a className="nav-link" href="{item.link}" data-key={index} onClick={this.handleClick}>
-                            <img src={item.avatar} />
-                            {item.name}
-                            <strong>@{item.username}</strong>
-                        </a>
-                    </li>
+            <div className="col-xs-12">
+                {this.state.postItems.map((item, index) => {
+                    return <div className="card card-block">
+                        <h4 className="card-title">{item.title}</h4>
+                        <p className="card-text" dangerouslySetInnerHTML={{__html: item.body_markdown}} />
+                        <a href={item.link} className="card-link text-success"><i className="material-icons">person_pin_circle</i> {item.owner.display_name}</a>
+                        <a href={item.link} className="card-link"><i className="material-icons">label</i> {item.tags.map((tag) => {
+                            return ' ' + tag + ' ';
+                        })}</a>
+                        </div>
                 })}
-            </ul>
+            </div>
         );
     };
 }
 
-export default ActiveUsers;
+export default MainForum;

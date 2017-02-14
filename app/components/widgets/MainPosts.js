@@ -6,7 +6,7 @@ import Configuration from '../Configuration';
 import Request from '../../utils/Request';
 import Settings from '../../utils/Settings';
 
-class LatestQuestions extends Component {
+class MainPosts extends Component {
 
     constructor() {
         super();
@@ -26,16 +26,8 @@ class LatestQuestions extends Component {
         theme: Configuration.themeSettings,
     };
 
-    questionItems = () => {
+    postItems = () => {
         return [];
-    };
-
-    questionTags = () => {
-        return [
-            { title: 'JavaScript' },
-            { title: 'Appcelerator Arrow' },
-            { title: 'node.js' },
-        ];
     };
 
     componentWillMount() {
@@ -44,7 +36,7 @@ class LatestQuestions extends Component {
             userName: this.props.userName,
             userPicture: this.props.userPicture,
             theme: this.props.theme,
-            userItems: this.questionItems(),
+            postItems: this.postItems(),
         };
     };
 
@@ -52,21 +44,18 @@ class LatestQuestions extends Component {
         //Fetch user data
         let req = new Request();
         let settings = new Settings();
-        req.get(settings.baseUrl + "/api/question/", (response) => {
+        req.get(settings.baseUrl + "/api/post/", (response) => {
             var body = response;
             if (typeof body === 'string') {
                 body = JSON.parse(body);
             }
-            if (body.questions.length > 0) {
+            if (body.posts.length > 0) {
                 var userData = new Array();
-                body.questions.map((user, index) => {
-                    userData[index] = {
-                        title: user.title,
-                        link: user.link
-                    }
+                body.posts.map((user, index) => {
+                    userData[index] = user
                 });
                 this.setState({
-                    userItems: userData,
+                    postItems: userData,
                 });
             }
         });
@@ -92,21 +81,24 @@ class LatestQuestions extends Component {
     render() {
 
         return (
-            <ul className="nav latestQuestions">
-                <li className="heading">Latest Questions</li>
-                {this.state.userItems.map((item, index) => {
-                    return <li key={index}>
-                        <a className="nav-link" data-key={index} href={item.link} onClick={this.handleClick}>
-                            {item.title}
-                        </a>
-                        <div>
-                            {this._renderTags()}
+            <div className="col-xs-12">
+                {this.state.postItems.map((item, index) => {
+                    return <div className="card">
+                    <div className="card-block">
+                            <h4 className="card-title">{item.title}</h4>
+                            <h6 className="card-subtitle text-muted">{item.date}</h6>
                         </div>
-                    </li>
+                        <img src={item.featured_image} alt={item.title} />
+                        <div className="card-block">
+                            <p className="card-text" dangerouslySetInnerHTML={{__html: item.excerpt}} />
+                            <a href={item.link} className="card-link text-success"><i className="material-icons">thumb_up</i> {item.like_count}</a>
+                            <a href={item.link} className="card-link"><i className="material-icons">comment</i> {item.discussion.comment_count}</a>
+                        </div>
+                </div>
                 })}
-            </ul>
+            </div>
         );
     };
 }
 
-export default LatestQuestions;
+export default MainPosts;

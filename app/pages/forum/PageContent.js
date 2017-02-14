@@ -3,7 +3,7 @@ import Configuration from '../../components/Configuration';
 
 //Layout elements
 import PostForm from '../../components/widgets/PostForm';
-import MainPosts from '../../components/widgets/MainPosts';
+import MainForum from '../../components/widgets/MainForum';
 
 class PageContent extends Component {
 
@@ -29,8 +29,7 @@ class PageContent extends Component {
     render() {
         return (
             <div className="col-sm-12 col-md-6">
-                <PostForm />
-                <MainPosts />
+                <MainForum />
             </div>
         );
     };

@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 
 import axwayLogo from '../../images/logo.png';
 import Configuration from '../Configuration';
+import Request from '../../utils/Request';
+import Settings from '../../utils/Settings';
 
 class Navbar extends Component {
 
@@ -13,15 +15,12 @@ class Navbar extends Component {
 
     static propTypes = {
         selectedItem: PropTypes.number,
-        userName: PropTypes.string,
-        userPicture: PropTypes.object,
+        userData: PropTypes.object,
         theme: PropTypes.object,
     };
 
     static defaultProps = {
         selectedItem: 0,
-        userName: 'unknown',
-        userPicture: <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50" />,
         theme: Configuration.themeSettings,
     };
 
@@ -31,6 +30,15 @@ class Navbar extends Component {
             { name: 'Blogs', link: '' },
             { name: 'Forums', link: '' },
         ]
+    };
+
+    userData = () => {
+        return {
+            displayName: 'unknown',
+            data: {
+                avatar_url: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+            }
+        };
     };
 
     userItems = () => {
@@ -43,11 +51,27 @@ class Navbar extends Component {
     componentWillMount() {
         this.state = {
             selectedItem: this.props.selectedItem,
-            userName: this.props.userName,
-            userPicture: this.props.userPicture,
+            userData: this.userData(),
             theme: this.props.theme,
         };
     };
+
+    componentDidMount() {
+        //Fetch user data
+        let req = new Request();
+        let settings = new Settings();
+        let self = this;
+        req.get(settings.baseUrl + "/api/github/logged", (response) => {
+            var body = response;
+            if (typeof body === 'string') {
+                body = JSON.parse(body);
+            }
+            var _data = body.authuser;
+            self.setState({
+                userData: _data
+            });
+        });
+    }
 
     handleClick = (e) => {
         e.preventDefault();
@@ -84,8 +108,8 @@ class Navbar extends Component {
                     <ul className="nav navbar-nav col-xs-12 col-md-2">
                         <li className="nav-item dropdown float-xs-right">
                             <a className="nav-link dropdown-toggle" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {this.state.userPicture}
-                                {this.state.userName}
+                                <img src={this.state.userData.data.avatar_url} />
+                                {this.state.userData.displayName}
                             </a>
                             <div className="dropdown-menu" aria-labelledby="supportedContentDropdown">
                                 <a className="dropdown-item" href="#">
